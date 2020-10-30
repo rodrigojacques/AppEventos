@@ -1,19 +1,16 @@
 package br.senai.sc.appEventos;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import br.senai.sc.appEventos.database.EventoDAO;
 import br.senai.sc.appEventos.modelo.Evento;
-
 
 public class CadastroEventoActivity extends AppCompatActivity {
 
-    private boolean edicao = false;
     private int id = 0;
 
     @Override
@@ -34,7 +31,6 @@ public class CadastroEventoActivity extends AppCompatActivity {
             editTextNome.setText(evento.getNome());
             editTextLocal.setText(evento.getLocal());
             editTextData.setText(evento.getData());
-            edicao = true;
             id = evento.getId();
         }
     }
@@ -51,20 +47,19 @@ public class CadastroEventoActivity extends AppCompatActivity {
         String nome = editTextNome.getText().toString();
         String local = editTextLocal.getText().toString();
         String data = editTextData.getText().toString();
+
         if (!nome.isEmpty() && !local.isEmpty() && !data.isEmpty()) {
+
             Evento evento = new Evento(id, nome, local, data);
-            Intent intent = new Intent();
+            EventoDAO eventoDao = new EventoDAO(getBaseContext());
 
-            if (edicao) {
-                intent.putExtra("eventoEditado", evento);
-                setResult(11, intent);
+            boolean salvou = eventoDao.salvar(evento);
+            if (salvou){
+                finish();
             } else {
-                intent.putExtra("novoEvento", evento);
-                setResult(10, intent);
+                Toast.makeText(CadastroEventoActivity.this, "Erro ao salvar", Toast.LENGTH_LONG).show();
             }
-
-            finish();
-        } else{
+        } else {
             Toast.makeText(CadastroEventoActivity.this, "Preencha todos os campos!", Toast.LENGTH_LONG).show();
         }
     }

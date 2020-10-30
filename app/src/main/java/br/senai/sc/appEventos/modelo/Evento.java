@@ -52,7 +52,7 @@ public class Evento implements Serializable {
     public String toString() {
         return  ">Nome: " + nome +
                 " >Local: " + local +
-                " >Data: " + data;
+                " >Data: " + data   ;
 
     }
 }
