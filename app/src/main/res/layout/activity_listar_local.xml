@@ -5,48 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".ListarLocalActivity">
 
     <ListView
-        android:id="@+id/listView_eventos"
+        android:id="@+id/listView_locais"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_height="400dp"
+        android:textColor="@color/azul" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btn_cadastrarEvento"
+            android:id="@+id/btnNovaLocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@color/azul"
-            android:onClick="onClickCadastrarEvento"
-            android:text="Cadastrar Evento"
+            android:onClick="onClickCadastrarLocal"
+            android:text="Novo Local"
             android:textColor="@color/branco"
             android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnLocal"
+            app:layout_constraintBottom_toTopOf="@+id/btnEventos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/btnLocal"
+            android:id="@+id/btnEventos"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@color/azul"
-            android:onClick="onClickLocais"
-            android:text="Locais"
+            android:onClick="onClickEventos"
+            android:text="Eventos"
             android:textColor="@color/branco"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </LinearLayout>

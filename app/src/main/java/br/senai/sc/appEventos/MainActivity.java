@@ -10,15 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
-import java.util.ArrayList;
 import br.senai.sc.appEventos.database.EventoDAO;
 import br.senai.sc.appEventos.modelo.Evento;
 
 public class MainActivity extends AppCompatActivity {
 
     ListView listViewEventos;
-    ArrayAdapter<Evento> adapterEventos;
-    private int id = 0;
+    public static ArrayAdapter<Evento> adapterEventos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Eventos");
 
         listViewEventos = findViewById(R.id.listView_eventos);
-        ArrayList<Evento> eventos = new ArrayList<>();
 
         definirOnClickListenerListView();
         definirOnLongClickListener();
@@ -38,8 +35,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         EventoDAO eventoDao = new EventoDAO(getBaseContext());
-        adapterEventos = new ArrayAdapter<Evento>(MainActivity.this, android.R.layout.simple_list_item_1, eventoDao.listar());
+        adapterEventos = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_list_item_1, eventoDao.listar());
         listViewEventos.setAdapter(adapterEventos);
+    }
+
+    private void definirOnClickListenerListView(){
+        listViewEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Evento eventoClicado = adapterEventos.getItem(position);
+                Intent intent = new Intent(MainActivity.this, CadastroEventoActivity.class);
+                intent.putExtra("eventoEdicao", eventoClicado);
+                startActivity(intent);
+            }
+        });
     }
 
     private void definirOnLongClickListener(){
@@ -55,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         EventoDAO eventoDAO = new EventoDAO(getBaseContext());
-                        eventoDAO.deletar(eventoClicado);
+                        eventoDAO.delete(eventoClicado);
+                        adapterEventos.remove(eventoClicado);
+                        adapterEventos.notifyDataSetChanged();
                         Toast.makeText(MainActivity.this, "Evento removido!", Toast.LENGTH_LONG).show();
                         onResume();
                     } } );
@@ -65,21 +77,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void definirOnClickListenerListView(){
-        listViewEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Evento eventoClicado = adapterEventos.getItem(position);
-                Intent intent = new Intent(MainActivity.this, CadastroEventoActivity.class);
-                intent.putExtra("eventoEdicao", eventoClicado);
-                startActivity(intent);
-            }
-        });
-    }
-
     public void onClickCadastrarEvento(View view){
         Intent intent = new Intent(MainActivity.this, CadastroEventoActivity.class);
         startActivity(intent);
     }
 
+    public void onClickLocais(View view){
+        Intent intent = new Intent(MainActivity.this, ListarLocalActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

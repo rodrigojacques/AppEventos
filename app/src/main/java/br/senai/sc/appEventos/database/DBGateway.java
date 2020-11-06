@@ -8,6 +8,11 @@ public class DBGateway {
     private static DBGateway dbGateway;
     private SQLiteDatabase db;
 
+    private DBGateway(Context context){
+        DatabaseDBHelper dbHelper = new DatabaseDBHelper(context);
+        db = dbHelper.getWritableDatabase();
+    }
+
     public static DBGateway getInstance(Context context){
         if (dbGateway == null){
             dbGateway = new DBGateway(context);
@@ -15,10 +20,7 @@ public class DBGateway {
         return dbGateway;
     }
 
-    public DBGateway(Context context){
-        DatabaseDBHelper dbHelper = new DatabaseDBHelper(context);
-        db = dbHelper.getWritableDatabase();
-    }
+
 
     public SQLiteDatabase getDatabase(){
         return db;
