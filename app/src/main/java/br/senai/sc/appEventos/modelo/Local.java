@@ -60,6 +60,7 @@ public class Local implements Serializable {
 
     @Override
     public String toString() {
-        return this.getNome();
+        return  this.getNome() +
+                " - Cidade: " + this.getCidade();
     }
 }

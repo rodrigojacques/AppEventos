@@ -16,12 +16,6 @@ public class Evento implements Serializable {
         this.local = local;
     }
 
-    public Evento(int id, String nome, String data) {
-        this.id = id;
-        this.nome = nome;
-        this.data = data;
-    }
-
     public int getId() {
         return id;
     }
@@ -56,9 +50,8 @@ public class Evento implements Serializable {
 
     @Override
     public String toString() {
-        return  "- Nome do Evento: " + this.getNome() +
-                " - Data: " + this.getData()  +
-                " - Local: " + this.getLocal();
+        return  this.getNome() +
+                " - Cidade: " + this.getLocal().getCidade();
 
     }
 }

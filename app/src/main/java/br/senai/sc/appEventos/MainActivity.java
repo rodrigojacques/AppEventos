@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import br.senai.sc.appEventos.database.EventoDAO;
@@ -17,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listViewEventos;
     public static ArrayAdapter<Evento> adapterEventos;
+    private EditText editTextPesquisarEvento;
+    private EditText editTextPesquisarCidade;
+    private Switch btn_switch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +31,12 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Eventos");
 
         listViewEventos = findViewById(R.id.listView_eventos);
+        editTextPesquisarEvento = findViewById(R.id.editTextPesquisarEvento);
+        editTextPesquisarCidade = findViewById(R.id.editTextPesquisarCidade);
+        btn_switch = findViewById(R.id.btn_switch);
 
         definirOnClickListenerListView();
         definirOnLongClickListener();
-
     }
 
     @Override
@@ -86,5 +94,20 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ListarLocalActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void onClickPesquisar(View view){
+        EventoDAO eventoDAO = new EventoDAO(getBaseContext());
+        String eventoPesquisado = editTextPesquisarEvento.getText().toString();
+        String cidadePesquisada = editTextPesquisarCidade.getText().toString();
+        String ordem;
+        if(btn_switch.isChecked()){
+            ordem = "ASC";
+        }else {
+            ordem = "DESC";
+        }
+        adapterEventos = new ArrayAdapter<>(MainActivity.this,
+                android.R.layout.simple_list_item_1, eventoDAO.pesquisar(eventoPesquisado, cidadePesquisada, ordem));
+        listViewEventos.setAdapter(adapterEventos);
     }
 }

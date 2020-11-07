@@ -10,7 +10,7 @@
     <ListView
         android:id="@+id/listView_locais"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:textColor="@color/azul" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
